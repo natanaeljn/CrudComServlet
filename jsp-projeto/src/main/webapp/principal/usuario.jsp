@@ -44,7 +44,7 @@
 
 													<div class="card-block">
 														<h4 class="sub-title">Cadastro de Usuario</h4>
-														<form class="form-material" enctype="multipart/form/data"  action="<%= request.getContextPath() %>/ServletUsuarioController" method="post"id="formUser">
+														<form class="form-material" enctype="multipart/form-data"  action="<%= request.getContextPath() %>/ServletUsuarioController" method="post"id="formUser">
 															<input type="hidden" name="acao" id="acao" value=" ">
 															
 															<div class="form-group form-default form-static-label">
@@ -54,7 +54,17 @@
 															</div>
 															<div class="form-group form-default input-group mb-4">
 															      <div class="input-group-prepend">
-															      <img alt="Imagem User" id="fotoembase64" src=" " width="70px">
+															      <c:if test = "${modelLogin.fotoUser != null && modelLogin.fotoUser != ' '  }">
+															      <a href="<%= request.getContextPath() %>/ServletUsuarioController?acao=downloadFoto&id=${modelLogin.id}">
+															      <img alt="Imagem User" id="fotoembase64" src="${modelLogin.fotoUser} " width="70px"
+															      />
+															      </a>
+															      </c:if>
+															     <c:if test = "${modelLogin.fotoUser == null || modelLogin.fotoUser == ' '   }">
+															     
+															     <img alt="Imagem User" id="fotoembase64" src="https://cdn-icons-png.flaticon.com/512/17/17004.png " width="70px">
+															     
+															    </c:if>
 															      </div>
 															      <input type="file"   id="filefoto" name="filefoto" accept=" image/* " onchange="visualizarImg('fotoembase64' , 'filefoto');" class="form-control-file" style="margin-top: 15px; margin-left: 5px;">
 															 

@@ -85,13 +85,20 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				
 				
 			}
-
+		 else if (acao != null && !acao.isEmpty()&& acao.equals("downloadFoto")) {
+    		String id = request.getParameter("id");
+    		var modelLogin = daoUsuarioRepository.consultarUsuarioId(id,getUserLogado(request));
+    		if (modelLogin!= null && !acao.isEmpty()) {
+    			response.setHeader("Content-Disposition", "attachment;filename=arquivo." + modelLogin.getExtensaoFotoUser());
+    			response.getOutputStream().write(Base64.decodeBase64(modelLogin.getFotoUSer().split("\\,")[1]));
+    		}
+		 }
 			else {
 				List<ModelLogin>user = daoUsuarioRepository.consultaUsuarioCompleta(super.getUserLogado(request));
 				request.setAttribute("modelLogins", user);
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 			}
-		} catch (Exception e) {
+		 } catch (Exception e) {
 			e.printStackTrace();
 			RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
 			request.setAttribute("msg", e.getMessage());
@@ -124,8 +131,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			if(ServletFileUpload.isMultipartContent(request) && part.getSize() > 0) {
 				var extensao = part.getContentType().split("\\/")[1];
 				byte[ ] foto = IOUtils.toByteArray(part.getInputStream() );/*converte imagem para byte*/
-				String imagemBase64 = new Base64().encodeBase64String(foto);
-				System.out.println(imagemBase64);
+				var base64 = "data:image/" + extensao + ";base64," + Base64.encodeBase64String(foto);
+				modelLogin.setFotoUSer(base64);
+				modelLogin.setExtensaoFotoUser(extensao);
 			}
 			/*
 			 * a parte do id ==null é para testar se estamos tentando inserir um novo
