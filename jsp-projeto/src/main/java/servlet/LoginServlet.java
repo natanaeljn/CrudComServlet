@@ -63,6 +63,8 @@ public class LoginServlet extends HttpServlet {
 					modelLogin =daoUsuarioRepository.consultarUsuarioLogado(login);
 					request.getSession().setAttribute("usuario", modelLogin.getLogin());
 					request.getSession().setAttribute("perfil", modelLogin.getPerfil());
+					/* vamos pegar a foto do usuario para podermos imprimir ela na tela */
+					request.getSession().setAttribute("imagemUser", modelLogin.getFotoUser());
 					if (url == null || url.equals("null")) {
 						url = "principal/principal.jsp";
 					}

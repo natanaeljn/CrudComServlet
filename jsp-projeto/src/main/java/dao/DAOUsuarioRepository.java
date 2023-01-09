@@ -104,6 +104,49 @@ public class DAOUsuarioRepository {
 
 		return retorno;
 	}
+	public List<ModelLogin> consultaUsuarioListOffset(String nome,Long getUserLogado,int offset) throws Exception {
+		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
+		String sql = "select * from model_login where upper(nome) like upper(?) and  useradmin  is false and usuarioid = ?  offset "+offset+"  limit 5";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, "%" + nome + "%");
+		statement.setLong(2, getUserLogado);
+		
+		ResultSet resultSet = statement.executeQuery();
+		while (resultSet.next()) {
+			ModelLogin modelLogin = new ModelLogin();
+			modelLogin.setEmail(resultSet.getString("email"));
+			modelLogin.setId(resultSet.getLong("id"));
+			modelLogin.setLogin(resultSet.getString("login"));
+			modelLogin.setNome(resultSet.getString("nome"));
+			// modelLogin.setSenha(resultSet.getString("senha"));
+			modelLogin.setPerfil(resultSet.getString("perfil"));
+			modelLogin.setSexo(resultSet.getString("sexo"));
+
+			retorno.add(modelLogin);
+		}
+
+		return retorno;
+	}
+	public int consultaUsuarioListConsultaPaginaPaginado(String nome,Long getUserLogado) throws Exception {
+		
+		String sql = "select count (1) as total from model_login where upper(nome) like upper(?) and  useradmin  is false and usuarioid = ?  ";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, "%" + nome + "%");
+		statement.setLong(2, getUserLogado);
+		ResultSet resultSet = statement.executeQuery();
+		resultSet.next();
+		Double cadastros = resultSet.getDouble("total");
+		Double porPaginas = 5.0 ;
+		Double pagina = cadastros/porPaginas;
+		Double resto = pagina % 2;
+		if(resto > 0 ) {
+			pagina++;
+		}
+		return pagina.intValue();
+	}
+
+		
+	
 
 	public List<ModelLogin> consultaUsuarioList(String nome,Long getUserLogado) throws Exception {
 		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
