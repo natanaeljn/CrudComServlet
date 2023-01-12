@@ -75,12 +75,21 @@
 																	class="form-control" required="required" value="${modelLogin.nome }" > <span
 																	class="form-bar"></span> <label class="float-label">Nome:</label>
 															</div>
+															
+															<div class="form-group form-default form-static-label ">
+																<input type="date" name="datanascimento" id ="datanascimento"
+																	class="form-control" required="required" value="${modelLogin.dataNascimento }" > <span
+																	class="form-bar"></span> <label class="float-label">Data  de Nascimento:</label>
+															</div>
+															
+															
 															<div class="form-group form-default form-static-label">
 																<input type="email" name="email" id="email"
 																	class="form-control" required="required"autocomplete="off"value="${modelLogin.email }"> <span
 																	class="form-bar"></span> <label class="float-label">Email
 																	:</label>
 															</div>
+															
 															<div class="form-group form-default form-static-label">
 															<select class="form-control"
 																aria-label="Default select example" name="perfil">
@@ -122,36 +131,42 @@
 															    <span class="form-bar"></span>
 																<label class="float-label">Perfil:</label>
 															</div>
+															
 															<div class="form-group form-default form-static-label">
 																<input onblur="pesquisaCep();"  type="text" name="cep" id ="cep"
 																	class="form-control" required="required" value="${modelLogin.cep}">
 																	 <span class="form-bar"></span>
 																	 <label class="float-label">Cep:</label>
 															</div>
+															
 															<div class="form-group form-default form-static-label">
 																<input type="text" name="logradouro" id ="logradouro"
 																	class="form-control" required="required" value="${modelLogin.logradouro}">
 																	 <span class="form-bar"></span>
 																	 <label class="float-label">Logradouro:</label>
 															</div>
+														
 															<div class="form-group form-default form-static-label">
 																<input type="text" name="bairro" id ="bairro"
 																	class="form-control" required="required" value="${modelLogin.bairro}">
 																	 <span class="form-bar"></span>
 																	 <label class="float-label">Bairro:</label>
 															</div>
+															
 															<div class="form-group form-default form-static-label">
 																<input type="text" name="localidade" id ="localidade"
 																	class="form-control" required="required" value="${modelLogin.localidade}">
 																	 <span class="form-bar"></span>
 																	 <label class="float-label">Localidade:</label>
 															</div>
+															
 															<div class="form-group form-default form-static-label">
 																<input type="text" name="uf" id ="uf"
 																	class="form-control" required="required" value="${modelLogin.uf}">
 																	 <span class="form-bar"></span>
 																	 <label class="float-label">Estado:</label>
 															</div>
+															
 															<div class="form-group form-default form-static-label">
 																<input type="text" name="numero" id ="numero"
 																	class="form-control" required="required" value="${modelLogin.numero}">
@@ -165,11 +180,13 @@
 																	 <span class="form-bar"></span>
 																	 <label class="float-label">Login:</label>
 															</div>
+														
 															<div class="form-group form-default form-static-label">
 																<input type="password" name="senha" id="senha"
 																	class="form-control"  required="required"autocomplete="off"value="${modelLogin.senha}"> <span
 																	class="form-bar"></span> <label class="float-label">Senha</label>
 															</div>
+														
 															<div class="form-group form-default form-static-label">
 															<input type="radio" name="sexo" checked="checked" value="MASCULINO" 
 															<% 
@@ -330,6 +347,30 @@
 	
 	
 	<script type="text/javascript">
+	$( function() {
+		  
+		  $("#datanascimento").datepicker({
+			    dateFormat: 'dd/mm/yy',
+			    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+			    dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+			    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+			    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+			    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+			    nextText: 'Próximo',
+			    prevText: 'Anterior'
+			});
+	} );
+	
+	
+	
+	$("#numero").keypress(function (event) {
+		return /\d/.test(String.fromCharCode(event.keyCode));
+	})
+	$("#cep").keypress(function (event) {
+		return /\d/.test(String.fromCharCode(event.keyCode));
+	})
+	
+	
 	function pesquisaCep() {
 		var cep = $("#cep").val();
 		 $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {

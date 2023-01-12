@@ -11,6 +11,7 @@ import jakarta.servlet.http.Part;
 import model.ModelLogin;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.apache.tomcat.jakartaee.commons.compress.utils.IOUtils;
@@ -26,6 +27,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 	private static final long serialVersionUID = 1L;
 	String msg;
 	private DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
+	public SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
 
 	public ServletUsuarioController() {
 		super();
@@ -152,8 +154,10 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String localidade = request.getParameter("localidade");
 			String uf = request.getParameter("uf");
 			String numero = request.getParameter("numero");
+			String dataNascimento = request.getParameter("datanascimento");
 			
 			ModelLogin modelLogin = new ModelLogin();
+			
 			modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
 			modelLogin.setNome(nome);
 			modelLogin.setEmail(email);
@@ -167,6 +171,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelLogin.setLocalidade(localidade);
 			modelLogin.setUf(uf);
 			modelLogin.setNumero(numero);
+			modelLogin.setDataNascimento(new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento));
 			
 			var part= request.getPart("filefoto") ;
 			if(ServletFileUpload.isMultipartContent(request) && part.getSize() > 0) {

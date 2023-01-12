@@ -1,5 +1,8 @@
 '<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
+    <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -63,6 +66,32 @@
                                                     	</div>
                                                     	</div>
                                                     	<span >${msg}</span>
+                                                    	
+                                                    	<div style="height: 300px; overflow: scroll;">
+											<table class="table" id="tabelaresultadosview">
+												<thead>
+													<tr>
+														<th scope="col">ID</th>
+														<th scope="col">Numero</th>
+														<th scope="col">Excluir</th>
+
+													</tr>
+												</thead>
+												<tbody>
+												<c:forEach items='${modelTelefones }' var='f'>
+												  <tr>
+												  <td><c:out value="${f.id }"></c:out>  </td>
+												  <td><c:out value="${f.numero }"></c:out>  </td>
+												  <td> <a class="btn btn-outline-secondary" href="<%= request.getContextPath() %>/ServletTelefone?acao=Excluir&id=${f.id }&userpai=${modelLogin.id}" >Excluir</a> </td>
+												  </tr>
+												
+												</c:forEach>
+
+												</tbody>
+											</table>
+
+										</div>
+                                                    	
 
                                         </div>
                                     </div>
@@ -78,6 +107,14 @@
     </div>
     
    <jsp:include page="javascriptFile.jsp"></jsp:include> 
+   <script type="text/javascript">
+	$("#numero").keypress(function (event) {
+		return /\d/.test(String.fromCharCode(event.keyCode));
+	})
+	
+	</script>
+   
+   
    
 </body>
 
