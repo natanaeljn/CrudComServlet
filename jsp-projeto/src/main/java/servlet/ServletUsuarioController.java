@@ -11,6 +11,7 @@ import jakarta.servlet.http.Part;
 import model.ModelLogin;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 	private static final long serialVersionUID = 1L;
 	String msg;
 	private DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
-	public SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+	
 
 	public ServletUsuarioController() {
 		super();
@@ -154,7 +155,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String localidade = request.getParameter("localidade");
 			String uf = request.getParameter("uf");
 			String numero = request.getParameter("numero");
-			String dataNascimento = request.getParameter("datanascimento");
+			String dataNascimento = request.getParameter("dataNascimento");
+			String rendaMensal = request.getParameter("rendamensal");
+			
 			
 			ModelLogin modelLogin = new ModelLogin();
 			
@@ -171,7 +174,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelLogin.setLocalidade(localidade);
 			modelLogin.setUf(uf);
 			modelLogin.setNumero(numero);
-			modelLogin.setDataNascimento(new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento));
+			modelLogin.setDataNascimento(Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento))));
+            modelLogin.setRendaMensal(Double.parseDouble(rendaMensal.split("\\ ")[1].replaceAll("\\.", "").replaceAll("\\,", ".")));
 			
 			var part= request.getPart("filefoto") ;
 			if(ServletFileUpload.isMultipartContent(request) && part.getSize() > 0) {

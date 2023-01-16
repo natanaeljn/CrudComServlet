@@ -76,11 +76,17 @@
 																	class="form-bar"></span> <label class="float-label">Nome:</label>
 															</div>
 															
-															<div class="form-group form-default form-static-label ">
-																<input type="date" name="datanascimento" id ="datanascimento"
-																	class="form-control" required="required" value="${modelLogin.dataNascimento }" > <span
-																	class="form-bar"></span> <label class="float-label">Data  de Nascimento:</label>
-															</div>
+														   <div class="form-group form-default form-static-label">
+                                                                <input type="text" name="dataNascimento" id="dataNascimento" class="form-control" required="required" value="${modelLogin.dataNascimento}">
+                                                                <span class="form-bar"></span>
+                                                                <label class="float-label">Data de Nascimento:</label>
+                                                            </div>   
+                                                            
+                                                            <div class="form-group form-default form-static-label">
+                                                                <input type="text" name="rendamensal" id="rendamensal" class="form-control" required="required" value="${modelLogin.rendaMensal}">
+                                                                <span class="form-bar"></span>
+                                                                <label class="float-label">Renda Mensal:</label>
+                                                            </div>   
 															
 															
 															<div class="form-group form-default form-static-label">
@@ -347,9 +353,27 @@
 	
 	
 	<script type="text/javascript">
+	$("#rendamensal").maskMoney({showSymbol:true, symbol:"R$ ", decimal:",", thousands:"."});
+	
+	const formatter = new Intl.NumberFormat('pt-BR', {
+		currency : 'BRL',
+		minimumFractionDigits : 2
+	});
+	
+	$("#rendamensal").val(formatter.format($("#rendamensal").val()));
+	$("#rendamensal").focus();
+	
+	var dataNascimento = $("#dataNascimento").val();
+	if (dataNascimento) {
+    	var dateFormat = new Date(dataNascimento);
+    	$("#dataNascimento").val(dateFormat.toLocaleDateString('pt-BR', {timeZone: 'UTC'}));
+	}
+	
+	$("#nome").focus();
+	
 	$( function() {
 		  
-		  $("#datanascimento").datepicker({
+		  $("#dataNascimento").datepicker({
 			    dateFormat: 'dd/mm/yy',
 			    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
 			    dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
