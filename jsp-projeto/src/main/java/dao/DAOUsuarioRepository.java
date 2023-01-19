@@ -15,10 +15,13 @@ import com.oracle.wls.shaded.org.apache.regexp.recompile;
 
 import connection.SingleConnection;
 import model.ModelLogin;
+import model.modelTelefone;
 import servlet.ServletUsuarioController;
 
 public class DAOUsuarioRepository {
 	private Connection connection;
+	
+	
 
 	public SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
 	
@@ -237,6 +240,8 @@ public class DAOUsuarioRepository {
 			modelLogin.setLocalidade(resultado.getString("localidade"));
 			modelLogin.setUf(resultado.getString("uf"));
 			modelLogin.setNumero(resultado.getString("numero"));
+			modelLogin.setDataNascimento(resultado.getDate("datanascimento"));
+			modelLogin.setRendaMensal(resultado.getDouble("renda"));
 			
 		}
 
@@ -291,6 +296,8 @@ public class DAOUsuarioRepository {
 			modelLogin.setLocalidade(resultado.getString("localidade"));
 			modelLogin.setUf(resultado.getString("uf"));
 			modelLogin.setNumero(resultado.getString("numero"));
+			modelLogin.setDataNascimento(resultado.getDate("datanascimento"));
+			modelLogin.setRendaMensal(resultado.getDouble("renda"));
 			
 		}
 
@@ -321,6 +328,8 @@ public class DAOUsuarioRepository {
 			modelLogin.setLocalidade(resultado.getString("localidade"));
 			modelLogin.setUf(resultado.getString("uf"));
 			modelLogin.setNumero(resultado.getString("numero"));
+			modelLogin.setDataNascimento(resultado.getDate("datanascimento"));
+			modelLogin.setRendaMensal(resultado.getDouble("renda"));
 		
 		}
 
@@ -412,28 +421,74 @@ public class DAOUsuarioRepository {
 
 		return retorno;
 	}
-	public Date dataFormat( String parametro ,ResultSet result) throws Exception {
-		Date dataForm = result.getDate(parametro);
-		
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(dataForm);
-		int dia =cal.get(Calendar.DAY_OF_MONTH);
-		int mes = cal.get(Calendar.MONTH) ;
-		if(mes == 0) {
-			mes++;
+	public List<ModelLogin>consultaUsuarioRelatorio(Long userLogado)throws Exception{
+		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
+		String sql = "select * from model_login where useradmin  is false and usuarioid = " + userLogado ;
+		PreparedStatement statement = connection.prepareStatement(sql);
+
+		ResultSet resultSet = statement.executeQuery();
+		while (resultSet.next()) {
+			ModelLogin modelLogin = new ModelLogin();
+			modelLogin.setEmail(resultSet.getString("email"));
+			modelLogin.setId(resultSet.getLong("id"));
+			modelLogin.setLogin(resultSet.getString("login"));
+			modelLogin.setNome(resultSet.getString("nome"));
+			// modelLogin.setSenha(resultSet.getString("senha"));
+			modelLogin.setPerfil(resultSet.getString("perfil"));
+			modelLogin.setSexo(resultSet.getString("sexo"));
+			modelLogin.setDataNascimento(resultSet.getDate("datanascimento"));
+			modelLogin.setModelTelefones(this.listaFones(modelLogin.getId()));
+			
+			
+			retorno.add(modelLogin);
 		}
-		int ano = cal.get(Calendar.YEAR);
-		String Datac = dia +"/"+mes+"/"+ano ;
-		Date data = sdf.parse(Datac);
 		
+		return retorno;
+	}
+	public List<ModelLogin>consultaUsuarioRelatorioDatas(Long userLogado,String dataInicial, String dataFinal)throws Exception{
+		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
+		String sql = "select * from model_login where useradmin  is false and usuarioid = " + userLogado + " and datanascimento >= ? and datanascimento <= ?" ;
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setDate(1, java.sql.Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataInicial))));
+		statement.setDate(2, java.sql.Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataFinal))));
+		ResultSet resultSet = statement.executeQuery();
+		while (resultSet.next()) {
+			ModelLogin modelLogin = new ModelLogin();
+			modelLogin.setEmail(resultSet.getString("email"));
+			modelLogin.setId(resultSet.getLong("id"));
+			modelLogin.setLogin(resultSet.getString("login"));
+			modelLogin.setNome(resultSet.getString("nome"));
+			// modelLogin.setSenha(resultSet.getString("senha"));
+			modelLogin.setPerfil(resultSet.getString("perfil"));
+			modelLogin.setSexo(resultSet.getString("sexo"));
+			modelLogin.setDataNascimento(resultSet.getDate("datanascimento"));
+			modelLogin.setModelTelefones(this.listaFones(modelLogin.getId()));
+			
+			
+			retorno.add(modelLogin);
+		}
 		
+		return retorno;
+	}
+	
+	
+	
+	public List<modelTelefone>listaFones (Long idUser) throws Exception{
+		List<modelTelefone> retorno = new  ArrayList<modelTelefone>();
+		String sql = " select * from telefone where usuario_pai_id = ? " ;
+		PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		preparedStatement.setLong(1, idUser);
+		ResultSet rs = preparedStatement.executeQuery();
+		while(rs.next()) {
+			modelTelefone modelTelefone =new modelTelefone();
+			modelTelefone.setId(rs.getLong("id"));
+			modelTelefone.setNumero(rs.getString("numero"));
+			modelTelefone.setUsuarioCadastro(this.consultarUsuarioID(rs.getLong("usuario_cad_id")));
+			modelTelefone.setUsuarioPai(this.consultarUsuarioID(rs.getLong("usuario_pai_id")));
+			retorno.add(modelTelefone);
+		}
 		
-		
-		
-		
-		
-		
-		return data;
+		return retorno;
 	}
 
 }

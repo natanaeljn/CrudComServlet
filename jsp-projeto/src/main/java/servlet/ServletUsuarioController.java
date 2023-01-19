@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import model.ModelLogin;
+import util.reportUtil;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -123,6 +124,44 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 			 
 		 }
+		 else if(acao != null && !acao.isEmpty()&& acao.equals("imprimirRelatorio")) {
+			 String dataInicial =request.getParameter("dataInicial");
+			 String dataFinal =request.getParameter("dataFinal");
+			 if(dataInicial==null || dataInicial.isEmpty() && dataFinal==null || dataFinal.isEmpty() ) {
+				 request.setAttribute("listaUser", daoUsuarioRepository.consultaUsuarioRelatorio(super.getUserLogado(request)));
+			 }
+			 else {
+				 request.setAttribute("listaUser", daoUsuarioRepository.consultaUsuarioRelatorioDatas(super.getUserLogado(request),dataInicial,dataFinal));
+				 
+			 }
+			 
+			 
+			 request.setAttribute("dataInicial", dataInicial);
+			 request.setAttribute("dataFinal", dataFinal);
+			 request.getRequestDispatcher("principal/relatUser.jsp").forward(request, response);
+			 
+		 }
+		 else if(acao != null && !acao.isEmpty()&& acao.equals("imprimirRelatorioPDF")) {
+			 String dataInicial =request.getParameter("dataInicial");
+			 String dataFinal =request.getParameter("dataFinal");
+			 List<ModelLogin>modelLogins = null;
+			 
+			 if(dataInicial==null || dataInicial.isEmpty() && dataFinal==null || dataFinal.isEmpty() ) {
+				 modelLogins= daoUsuarioRepository.consultaUsuarioRelatorio(super.getUserLogado(request));
+			 }
+			 else {
+				 modelLogins=daoUsuarioRepository.consultaUsuarioRelatorioDatas(super.getUserLogado(request),dataInicial,dataFinal);
+				 
+			 }
+			 byte[] relatorio = new reportUtil().geraRelatorioPdf(modelLogins, "relatorio-user-jsp", request.getServletContext());
+			 response.setHeader("Content-Disposition", "attachment;filename=arquivo.pdf" );
+    		 response.getOutputStream().write(relatorio);
+			 
+		 }
+			
+			
+			
+			
 			else {
 				List<ModelLogin>user = daoUsuarioRepository.consultaUsuarioCompleta(super.getUserLogado(request));
 				request.setAttribute("modelLogins", user);
