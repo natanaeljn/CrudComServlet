@@ -66,14 +66,9 @@
                                       </li>
                                       </c:if>
                                       
-                                      <!--
-                                      <li class=" ">
-                                          <a href="breadcrumb.html" class="waves-effect waves-dark">
-                                              <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                              <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Breadcrumbs</span>
-                                              <span class="pcoded-mcaret"></span>
-                                          </a>
-                                      </li>
+                                      
+                                    
+                                     <!--
                                       <li class=" ">
                                           <a href="button.html" class="waves-effect waves-dark">
                                               <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -141,6 +136,13 @@
                                   <a href="<%=request.getContextPath() %>/principal/relatUser.jsp" class="waves-effect waves-dark">
                                       <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
                                       <span class="pcoded-mtext" data-i18n="nav.form-components.main">Usuario</span>
+                                      <span class="pcoded-mcaret"></span>
+                                  </a>
+                              </li>
+                                <li class="active">
+                                  <a href="<%=request.getContextPath() %>/principal/relatUserGrafico.jsp" class="waves-effect waves-dark" >
+                                      <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+                                      <span class="pcoded-mtext" data-i18n="nav.form-components.main">Grafico</span>
                                       <span class="pcoded-mcaret"></span>
                                   </a>
                               </li>

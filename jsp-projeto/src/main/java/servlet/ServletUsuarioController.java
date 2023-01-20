@@ -15,6 +15,12 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import util.reportUtil;
+import static util.objectUtil.objetoValidacao;
+import static util.objectUtil.objetosValidacao;
+import static java.util.Objects.isNull;
+
+
+
 
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +53,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			throws ServletException, IOException {
 		try {
 			String acao = request.getParameter("acao");
-			if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletar")) {
+			if (objetoValidacao(acao) && acao.equalsIgnoreCase("deletar")) {
 				String UserId = request.getParameter("id");
 				daoUsuarioRepository.deletarUser(UserId);
 				List<ModelLogin>user = daoUsuarioRepository.consultaUsuarioCompleta(super.getUserLogado(request));
@@ -57,12 +63,12 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.setAttribute("msg", "Excluido com Sucesso");
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(this.getUserLogado(request)));
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
-			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletarajax")) {
+			} else if (objetoValidacao(acao) && acao.equalsIgnoreCase("deletarajax")) {
 				String UserId = request.getParameter("id");
 				daoUsuarioRepository.deletarUser(UserId);
 
 				response.getWriter().write("Excluido com Sucesso");
-			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUserAjax")) {
+			} else if (objetoValidacao(acao) && acao.equalsIgnoreCase("buscarUserAjax")) {
 
 				String nomeBusca = request.getParameter("nomeBusca");
 				System.out.println(nomeBusca);
@@ -76,7 +82,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				response.addHeader("totalPagina", " "+ daoUsuarioRepository.consultaUsuarioListConsultaPaginaPaginado(nomeBusca, super.getUserLogado(request)));
 				response.getWriter().write(json);
 			} 
-			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUserAjaxPage")) {
+			else if (objetoValidacao(acao) && acao.equalsIgnoreCase("buscarUserAjaxPage")) {
 
 				String nomeBusca = request.getParameter("nomeBusca");
 				String pagina = request.getParameter("pagina");
@@ -91,7 +97,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				response.addHeader("totalPagina", " "+ daoUsuarioRepository.consultaUsuarioListConsultaPaginaPaginado(nomeBusca, super.getUserLogado(request)));
 				response.getWriter().write(json);
 
-			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarEditar")) {
+			} else if (objetoValidacao(acao) && acao.equalsIgnoreCase("buscarEditar")) {
 				String id = request.getParameter("id");
 				ModelLogin modelLogin = daoUsuarioRepository.consultarUsuarioId(id,super.getUserLogado(request));
 				List<ModelLogin>user = daoUsuarioRepository.consultaUsuarioCompleta(super.getUserLogado(request));
@@ -104,7 +110,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				redireciona.forward(request, response);
 
 			}
-			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("listarUser")) {
+			else if (objetoValidacao(acao) && acao.equalsIgnoreCase("listarUser")) {
 				List<ModelLogin>user = daoUsuarioRepository.consultaUsuarioCompleta(super.getUserLogado(request));
 				request.setAttribute("msg", "Usuarios carregados com sucesso");
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(this.getUserLogado(request)));
@@ -115,7 +121,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				
 				
 			}
-		 else if (acao != null && !acao.isEmpty()&& acao.equals("downloadFoto")) {
+		 else if (objetoValidacao(acao)&& acao.equals("downloadFoto")) {
     		String id = request.getParameter("id");
     		var modelLogin = daoUsuarioRepository.consultarUsuarioId(id,super.getUserLogado(request));
     		if (modelLogin!= null && !acao.isEmpty()) {
@@ -123,7 +129,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
     			response.getOutputStream().write(Base64.decodeBase64(modelLogin.getFotoUser().split("\\,")[1]));
     		}
 		 }
-		 else if (acao != null && !acao.isEmpty()&& acao.equals("paginar")) {
+		 else if (objetoValidacao(acao)&& acao.equals("paginar")) {
 			 Integer offset =Integer.parseInt(request.getParameter("pagina"));
 			 List<ModelLogin>user = daoUsuarioRepository.consultaUsuarioCompletaPaginada(this.getUserLogado(request), offset);
 			 request.setAttribute("modelLogins", user);
@@ -131,7 +137,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 			 
 		 }
-		 else if(acao != null && !acao.isEmpty()&& acao.equals("imprimirRelatorio")) {
+		 else if(objetoValidacao(acao)&& acao.equals("imprimirRelatorio")) {
 			 String dataInicial =request.getParameter("dataInicial");
 			 String dataFinal =request.getParameter("dataFinal");
 			 if(dataInicial==null || dataInicial.isEmpty() && dataFinal==null || dataFinal.isEmpty() ) {
@@ -148,7 +154,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			 request.getRequestDispatcher("principal/relatUser.jsp").forward(request, response);
 			 
 		 }
-		 else if(acao != null && !acao.isEmpty()&& acao.equals("imprimirRelatorioPDF"))  {
+		 else if(objetoValidacao(acao)&& acao.equals("imprimirRelatorioPDF"))  {
 			 String dataInicial =request.getParameter("dataInicial");
 			 String dataFinal =request.getParameter("dataFinal");
 			 List<ModelLogin>modelLogins = null;
