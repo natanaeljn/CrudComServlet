@@ -31,7 +31,7 @@
 								<div class="page-wrapper">
 									<!-- Page-body start -->
 									<div class="page-body">
-										<
+										
 										<div class="row">
 											<div class="col-sm-12">
 												<!-- Basic Form Inputs card start -->
@@ -63,17 +63,18 @@
 																</div>
 																
 																<div class="col-auto my-1">
-																	<button type="button" onclick="gerarGrafico();" class="btn btn-primary">Gerar grafico</button>
+																	<button type="button" onclick="gerarGrafico();" class="btn btn-primary"> grafico </button>
 																	
 																	
 																</div>
 															</div>
+															
 
 
 
 														</form>
 
-														<div style="height: 600px; overflow: scroll;">
+														<div style="height: 600px; ">
 															<div>
 																<canvas id="myChart"></canvas>
 															</div>
@@ -117,30 +118,30 @@
 
 
 function gerarGrafico() {
-	var myChart = new Chart(
-			document.getElementById('myChart'),
-			{
-				type: 'line'
-				data : {
-					labels : [
-						'Janeiro'
-						'Fevereiro'
-						'Março'
-						'Maio'
-						'Junho'
-					],
-					datasets : [{
-						label: 'Grafico de media Salarial',
-						backgroundColor: 'rgb(255, 99 , 132)',
-						borderColor: 'rgb(255, 99 , 132)',
-						data: [0, 10, 5, 2, 20, 30, 40],
-						
-					}]
-				},
-				options: { }
-				
-	}
-	);
+    var myChart = new Chart(
+            document.getElementById('myChart'),
+            {
+                type: 'line',
+                data : {
+                    labels : [
+                        'Janeiro',
+                        'Fevereiro',
+                        'Março',
+                        'Maio',
+                        'Junho'
+                    ],
+                    datasets : [{
+                        label: 'Grafico de media Salarial',
+                        backgroundColor: 'rgb(255, 99 , 132)',
+                        borderColor: 'rgb(255, 99 , 132)',
+                        data: [0, 10, 5, 2, 20, 30, 40],
+                        
+                    }]
+                },
+                options: { }
+                
+    }
+);
 
 }
 

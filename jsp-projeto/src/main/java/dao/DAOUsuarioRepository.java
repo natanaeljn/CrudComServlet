@@ -13,6 +13,7 @@ import org.apache.naming.java.javaURLContextFactory;
 
 import com.oracle.wls.shaded.org.apache.regexp.recompile;
 
+import beandto.beanDtoGraficoSalario;
 import connection.SingleConnection;
 import model.ModelLogin;
 import model.modelTelefone;
@@ -28,6 +29,29 @@ public class DAOUsuarioRepository {
 	public DAOUsuarioRepository() {
 		connection = SingleConnection.getConn();
 	}
+	public beanDtoGraficoSalario montarGraficoMediaSalario(Long userLogado)throws Exception{
+		String sql = " select avg(renda) as media_salarial, perfil from model_login where usuarioid = ? group by perfil ";
+		PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		preparedStatement.setLong(1, userLogado);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		List<String>perfis = new ArrayList<String>();
+		List<Double>salarios = new ArrayList<Double>();
+		beanDtoGraficoSalario beanDtoGraficoSalario = new beanDtoGraficoSalario();
+		
+		while(resultSet.next()) {
+			Double media_salarial = resultSet.getDouble("media_salarial");
+			String perfil = resultSet.getString("perfil");
+			perfis.add(perfil);
+			salarios.add(media_salarial);
+			
+			
+		}
+		beanDtoGraficoSalario.setPerfis(perfis);
+		beanDtoGraficoSalario.setSalarios(salarios);
+		return beanDtoGraficoSalario;
+	}
+	
+	
 
 	public ModelLogin gravarUsuario(ModelLogin obj ,Long getUserLogado) throws Exception {
 
