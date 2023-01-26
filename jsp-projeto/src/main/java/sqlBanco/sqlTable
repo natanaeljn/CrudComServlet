@@ -43,13 +43,34 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.model_login
     OWNER to postgres;
 	
-	
+	cria coluna para verificar se o usuario e administrador
 alter TABLE model_login ADD column useradmin BOOLEAN NOT null default false;	
 	
 	
+	cria sequencia
+CREATE SEQUENCE  public.versionadorbanco_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1	
 	
+	cria tabela que trabalha com a outra de model_login
+	CREATE TABLE IF NOT EXISTS public.telefone
+(
+    id integer NOT NULL DEFAULT nextval('telefone_seq'::regclass),
+    numero character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    usuario_pai_id bigint,
+    usuario_cad_id bigint,
+    CONSTRAINT telefone_pkey PRIMARY KEY (id)
+)
 	
-	
-	
+	criaçao da tabela para versionador de banco
+	CREATE TABLE  public.versionadorbanco
+(
+    id integer NOT NULL DEFAULT nextval('versionadorbanco_seq'::regclass),
+    arquivo_sql character VARYING(50)NOT NULL,
+	CONSTRAINT id_pk PRIMARY KEY (id)
+	)
 	
 	

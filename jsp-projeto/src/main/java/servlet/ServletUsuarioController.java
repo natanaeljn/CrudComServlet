@@ -29,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.tomcat.jakartaee.commons.compress.utils.IOUtils;
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
@@ -193,7 +193,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				 response.getWriter().write(json);
 			 }
 			 else {
-				 beanDtoGraficoSalario beanDtoGraficoSalario = daoUsuarioRepository.montarGraficoMediaSalario(this.getUserLogado(request));
+				 beanDtoGraficoSalario beanDtoGraficoSalario = daoUsuarioRepository.montarGraficoMediaSalarioData(this.getUserLogado(request),dataInicial,dataFinal);
 				 ObjectMapper objectMapper = new ObjectMapper();
 				 String json = objectMapper.writeValueAsString(beanDtoGraficoSalario);
 				 response.getWriter().write(json);

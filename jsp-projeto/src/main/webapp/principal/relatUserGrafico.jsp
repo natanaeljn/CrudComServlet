@@ -111,7 +111,9 @@
 	
 	
 <script type="text/javascript">
-
+var myChart = new Chart(
+        document.getElementById('myChart')
+);
 
 
 
@@ -129,9 +131,9 @@ function gerarGrafico() {
 	     data : "dataInicial=" + dataInicial + '&dataFinal=' + dataFinal + '&acao=graficoSalario',
 	     success: function (response) {
 		 var json = JSON.parse(response);
+		 myChart.destroy();
 		 
-		 
-		    var myChart = new Chart(
+		    myChart = new Chart(
 		            document.getElementById('myChart'),
 		            {
 		                type: 'line',

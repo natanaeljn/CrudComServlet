@@ -364,7 +364,7 @@
 	$("#rendamensal").focus();
 	
 	var dataNascimento = $("#dataNascimento").val();
-	if (dataNascimento) {
+	if (dataNascimento ) {
     	var dateFormat = new Date(dataNascimento);
     	$("#dataNascimento").val(dateFormat.toLocaleDateString('pt-BR', {timeZone: 'UTC'}));
 	}
