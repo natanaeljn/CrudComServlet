@@ -26,18 +26,17 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-	
+
 		String acao = request.getParameter("acao");
-		if(acao != null &&acao .isEmpty()&&acao.equalsIgnoreCase("logout")) {
-			request.getSession().invalidate(); //invalida a sessao , zerando os dados 
+		if (acao != null && acao.isEmpty() && acao.equalsIgnoreCase("logout")) {
+			request.getSession().invalidate(); // invalida a sessao , zerando os dados
 			RequestDispatcher redirecionar = request.getRequestDispatcher("index.jsp");
 			redirecionar.forward(request, response);
 		}
-		
+
 		else {
-		
-		
-		doPost(request, response);
+
+			doPost(request, response);
 
 		}
 	}
@@ -50,7 +49,7 @@ public class LoginServlet extends HttpServlet {
 
 		try {
 			if (login != null && !login.isEmpty() && senha != null && !senha.isEmpty()) {
-				ModelLogin modelLogin =  new ModelLogin();
+				ModelLogin modelLogin = new ModelLogin();
 				modelLogin.setLogin(login);
 				modelLogin.setSenha(senha);
 				/* simulando um login */
@@ -60,7 +59,7 @@ public class LoginServlet extends HttpServlet {
 					 * passamos uma descriçao e o objeto que sera passado , ou um atributo dele ,
 					 * logo depois redirecionamos para a nova tela
 					 */
-					modelLogin =daoUsuarioRepository.consultarUsuarioLogado(login);
+					modelLogin = daoUsuarioRepository.consultarUsuarioLogado(login);
 					request.getSession().setAttribute("usuario", modelLogin.getLogin());
 					request.getSession().setAttribute("perfil", modelLogin.getPerfil());
 					/* vamos pegar a foto do usuario para podermos imprimir ela na tela */

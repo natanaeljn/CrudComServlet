@@ -11,11 +11,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class objectUtil {
-	private objectUtil(){  }
+	private objectUtil() {
+	}
 
 	public static boolean objetoValidacao(Object object) {
 		return nonNull(object) && !object.toString().isEmpty();
 	}
+
 	public static boolean objetosValidacao(Object... objects) {
 		for (Object obj : objects) {
 			if (isNull(obj) || obj.toString().isEmpty()) {
@@ -24,6 +26,7 @@ public class objectUtil {
 		}
 		return true;
 	}
+
 	public static boolean isObjectsNotValid(Object... objects) {
 		return !objetosValidacao(objects);
 	}

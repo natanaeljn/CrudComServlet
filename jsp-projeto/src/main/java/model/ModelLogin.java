@@ -5,111 +5,101 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModelLogin implements Serializable{
-
+public class ModelLogin implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String nome;
-	private String email ; 
-	private String login ; 
+	private String email;
+	private String login;
 	private String senha;
 	private java.sql.Date dataNascimento;
-	private boolean userAdmin ;
-	private String perfil ; 
-	private String sexo ;
+	private boolean userAdmin;
+	private String perfil;
+	private String sexo;
 	private String fotoUser;
 	private String extensaoFotoUser;
-    private String  cep ;
-    private String  logradouro ;
-    private String  bairro ;
-    private String  localidade ;
-    private String  uf ;
-    private String  numero ;
-    private Double rendaMensal;
-    
-    private List<modelTelefone>modelTelefones = new ArrayList<modelTelefone>();
-    
-    
-    
-    
-    
+	private String cep;
+	private String logradouro;
+	private String bairro;
+	private String localidade;
+	private String uf;
+	private String numero;
+	private Double rendaMensal;
+
+	private List<modelTelefone> modelTelefones = new ArrayList<modelTelefone>();
+
 	public List<modelTelefone> getModelTelefones() {
 		return modelTelefones;
 	}
-
-
 
 	public void setModelTelefones(List<modelTelefone> modelTelefones) {
 		this.modelTelefones = modelTelefones;
 	}
 
-
-
 	public Double getRendaMensal() {
 		return rendaMensal;
 	}
-
-
 
 	public void setRendaMensal(Double rendaMensal) {
 		this.rendaMensal = rendaMensal;
 	}
 
+	public boolean isNovo() {
 
-
-	public  boolean isNovo() {
-		
-		if(this.id ==null) {
+		if (this.id == null) {
 			return true;
-			
-		}else if(this.id!= null&& this.id> 0 ) {
+
+		} else if (this.id != null && this.id > 0) {
 			return false;
 		}
-		return id == null; 
+		return id == null;
 	}
-	
-	
-	
+
 	public Date getDataNascimento() {
 		return dataNascimento;
 	}
-
-
 
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
-
-
 	public String getLogin() {
 		return login;
 	}
+
 	public void setLogin(String login) {
 		this.login = login;
 	}
+
 	public String getSenha() {
 		return senha;
 	}
+
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -200,8 +190,6 @@ public class ModelLogin implements Serializable{
 
 	public void setNumero(String numero) {
 		this.numero = numero;
-	} 
-	
-	
+	}
 
 }
